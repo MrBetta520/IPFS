@@ -4,7 +4,7 @@ import json
 def pin_to_ipfs(data):
 	assert isinstance(data,dict), f"Error pin_to_ipfs expects a dictionary"
 	#YOUR CODE HERE
-  url = "https://api.pinata.cloud/pinning/pinJSONToIPFS"
+	url = "https://api.pinata.cloud/pinning/pinJSONToIPFS"
 
 	headers = {
 		"Content-Type": "application/json",
@@ -18,16 +18,12 @@ def pin_to_ipfs(data):
 			"name": "blockchain_assignment_data"
 		}
 	}
-
 	try:
 		response = requests.post(url, json=payload, headers=headers)
 		response.raise_for_status()
-        
 		result = response.json()
 		cid = result["IpfsHash"]
-        
 		return cid
-        
 	except requests.exceptions.RequestException as e:
 		print(f"Error pinning to IPFS: {e}")
 		return None
@@ -40,9 +36,7 @@ def get_from_ipfs(cid,content_type="json"):
 	try:
 		response = requests.get(url)
 		response.raise_for_status()
-        
 		data = response.json()
-        
 		assert isinstance(data, dict), f"get_from_ipfs should return a dict"
 		return data
 
