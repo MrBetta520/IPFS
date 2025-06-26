@@ -8,7 +8,7 @@ def pin_to_ipfs(data):
 
 	headers = {
 		"Content-Type": "application/json",
-		"pinata_api_key": "acb2ac4b03bafad96cb6",
+		"pinata_api_key": "acb2ac4b035afad96c56",
 		"pinata_secret_api_key": "8f89a3524c94e9bf1c38e09a61cf62f634d8a040cb36b963338c9bbd3e5310e3"
 	}
 
@@ -26,11 +26,16 @@ def pin_to_ipfs(data):
 		return cid
 	except requests.exceptions.RequestException as e:
 		print(f"Error pinning to IPFS: {e}")
+		if hasattr(e, 'response') and e.response is not None:
+			print(f"Response: {e.response.text}")
 		return None
 
 def get_from_ipfs(cid,content_type="json"):
 	assert isinstance(cid,str), f"get_from_ipfs accepts a cid in the form of a string"
 	#YOUR CODE HERE
+	if not cid:
+		print("Error: CID is empty or None")
+		return {}
 	url = f"https://gateway.pinata.cloud/ipfs/{cid}"
 
 	try:
